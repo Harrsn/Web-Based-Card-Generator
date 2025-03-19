@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Last Generated File Info</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 40px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Last Generated File</h1>
+    {% if filename and timestamp %}
+    <p><strong>File:</strong> {{ filename }}</p>
+    <p><strong>Generated At:</strong> {{ timestamp }}</p>
+    <img src="{{ url_for('static', filename=filename) }}" alt="Last Generated Cards" class="img-fluid">
+    <a href="{{ url_for('download_file', filename=filename) }}" class="btn btn-success mt-3">Download Image</a>
+    {% else %}
+    <p>No files generated yet.</p>
+    {% endif %}
+    <a href="/" class="btn btn-primary mt-3">Back to Generator</a>
+</div>
+</body>
+</html>
