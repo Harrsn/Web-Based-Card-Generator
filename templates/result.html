@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generated Cards</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 40px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .btn-download {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Cards Generated Successfully!</h1>
+    <img src="{{ url_for('static', filename=generated_image) }}" alt="Generated Cards">
+    <a href="{{ url_for('download_file', filename=generated_image) }}" class="btn btn-success btn-download">Download Image</a>
+    <a href="/" class="btn btn-primary btn-download">Generate More</a>
+</div>
+</body>
+</html>
