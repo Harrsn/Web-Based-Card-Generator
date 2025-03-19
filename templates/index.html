@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Customer Card Generator</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<style>
+		body {
+			padding-top: 40px;
+			background-color: #f8f9fa;
+		}
+		.container {
+			max-width: 800px;
+		}
+		.hidden {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<h1 class="text-center">Customer Card Generator</h1>
+	<form method="POST" action="/generate">
+		<div class="form-group">
+			<label for="mode">Select Mode:</label>
+			<select class="form-control" id="mode" name="mode" onchange="toggleMode()" required>
+				<option value="WiFi">WiFi</option>
+				<option value="Phone">Phone</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="num_cards">Number of Cards (1-12):</label>
+			<select class="form-control" id="num_cards" name="num_cards" required>
+				{% for i in range(1,13) %}
+				<option value="{{i}}">{{i}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		
+		<div id="wifi_fields">
+			<div class="form-group">
+				<label for="ssid">SSID (one per line):</label>
+				<textarea class="form-control" id="ssid" name="ssid" rows="5"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="password">Password (one per line):</label>
+				<textarea class="form-control" id="password" name="password" rows="5"></textarea>
+			</div>
+			<button type="button" class="btn btn-secondary mb-3" onclick="generatePassword()">Generate Random Password</button>
+		</div>
+		
+		<div id="phone_fields" class="hidden">
+			<div class="form-group">
+				<label for="name">Name (one per line):</label>
+				<textarea class="form-control" id="name" name="name" rows="3"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="phone_number">Phone Number (one per line):</label>
+				<textarea class="form-control" id="phone_number" name="phone_number" rows="3"></textarea>
+			</div>
+		</div>
+		
+		<button type="submit" class="btn btn-primary">Generate Cards</button>
+		<a href="/last" class="btn btn-info">Last Generated File Info</a>
+		<button type="reset" class="btn btn-warning">Clear</button>
+	</form>
+</div>
+
+<script>
+	function toggleMode() {
+		var mode = document.getElementById("mode").value;
+		if (mode === "WiFi") {
+			document.getElementById("wifi_fields").classList.remove("hidden");
+			document.getElementById("phone_fields").classList.add("hidden");
+		} else {
+			document.getElementById("phone_fields").classList.remove("hidden");
+			document.getElementById("wifi_fields").classList.add("hidden");
+		}
+	}
+
+	function generatePassword() {
+		fetch('/generate_password')
+			.then(response => response.text())
+			.then(data => {
+				var passwordField = document.getElementById("password");
+				passwordField.value += data + "\n";
+			})
+			.catch(error => alert('Error generating password: ' + error));
+	}
+</script>
+</body>
+</html>
